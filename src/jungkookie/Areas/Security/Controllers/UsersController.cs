@@ -78,8 +78,6 @@ namespace jungkookie.Areas.Security.Controllers
                     Gender = users.Gender
                
                 };
-                
-                
                 return View(user);
             }
 
