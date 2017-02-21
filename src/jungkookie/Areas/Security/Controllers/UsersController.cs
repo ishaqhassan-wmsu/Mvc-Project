@@ -13,34 +13,8 @@ namespace jungkookie.Areas.Security.Controllers
 
         private IList<Userview> users
         {
-            get
-            {
-                if (Session["data"] == null)
-                {
-                    Session["data"] = new List<Userview>()
-                    {
-                        new Userview
-                            {
-                                Id = Guid.NewGuid(),
-                                FirstName = "Ishaq",
-                                LastName = "Hassan",
-                                Age = 20,
-                                Gender = "Male"
-                            },
-
-                        new Userview
-                       {
-                           Id = Guid.NewGuid(),
-                           FirstName = "Szhack",
-                           LastName = "Hassan",
-                           Age = 20,
-                            Gender = "Male"
-                       }
-                    };
-
-                }
-                return Session["data"] as List<Userview>;
-            }
+            get;
+            set;
         }
 
         // GET: Security/Users
@@ -66,19 +40,23 @@ namespace jungkookie.Areas.Security.Controllers
         // GET: Security/Users/Details/5
         public ActionResult Details(Guid id)
         {
+
             using (var db = new DatabaseContext())
             {
-                var users = db.Users.FirstOrDefault(u => u.Id == id);
-                Userview user = new Userview
-                {
-                    Id = users.Id,
-                    FirstName = users.FirstName,
-                    LastName = users.LastName,
-                    Age = users.Age,
-                    Gender = users.Gender
-               
-                };
-                return View(user);
+
+                var users = (from user in db.Users
+                             where user.Id == id
+                             select new Userview
+                             {
+                                 Id = user.Id,
+                                 FirstName = user.FirstName,
+                                 LastName = user.LastName,
+                                 Age = user.Age,
+                                 Gender = user.Gender
+
+
+                             }).FirstOrDefault();
+                return View(users);
             }
 
         }
@@ -86,19 +64,7 @@ namespace jungkookie.Areas.Security.Controllers
         // GET: Security/Users/Create
         public ActionResult Create()
         {
-            ViewBag.Genders = new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Value = "Male",
-                    Text = "Male"
-                },
-                new SelectListItem
-                { 
-                    Value = "Female",
-                    Text = "Female"
-                }
-            };
+            
             return View();
         }
 
@@ -134,21 +100,23 @@ namespace jungkookie.Areas.Security.Controllers
         // GET: Security/Users/Edit/5
         public ActionResult Edit(Guid id)
         {
-            ViewBag.Genders = new List<SelectListItem>
+            using (var db = new DatabaseContext())
             {
-                new SelectListItem
-                {
-                    Value = "Male",
-                    Text = "Male"
-                },
-                new SelectListItem
-                { 
-                    Value = "Female",
-                    Text = "Female"
-                }
-            };
-           
-            return View();
+
+                var users = (from user in db.Users
+                             where user.Id == id
+                             select new Userview
+                             {
+                                 Id = user.Id,
+                                 FirstName = user.FirstName,
+                                 LastName = user.LastName,
+                                 Age = user.Age,
+                                 Gender = user.Gender
+
+
+                             }).FirstOrDefault();
+                return View(users);
+            }
         }
 
         // POST: Security/Users/Edit/5
@@ -157,13 +125,21 @@ namespace jungkookie.Areas.Security.Controllers
         {
             try
             {
-                var u = users.FirstOrDefault(user => user.Id == id);
-                u.FirstName = view.FirstName;
-                u.LastName = view.LastName;
-                u.Age = view.Age;
-                u.Gender = view.Gender;
-                // TODO: Add update logic here
+                // TODO: Add insert logic here
+                if (ModelState.IsValid == false)
+                    return View();
+                using (var db = new DatabaseContext())
+                {
+                    var users = (from user in db.Users
+                             where user.Id == id
+                             select user).FirstOrDefault();
 
+                    users.FirstName = view.FirstName;
+                    users.LastName = view.LastName;
+                    users.Age = view.Age;
+                    users.Gender = view.Gender; 
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             catch
@@ -175,25 +151,38 @@ namespace jungkookie.Areas.Security.Controllers
         // GET: Security/Users/Delete/5
         public ActionResult Delete(Guid id)
         {
-            var u = users.FirstOrDefault(user => user.Id == id);
-            return View(u);
+            using (var db = new DatabaseContext())
+            {
+                var users = (from user in db.Users
+                             where user.Id == id
+                             select new Userview
+                             {
+                                 Id = user.Id,
+                                 FirstName = user.FirstName,
+                                 LastName = user.LastName,
+                                 Age = user.Age,
+                                 Gender = user.Gender
+
+
+                             }).FirstOrDefault();
+                return View(users);
+            }
+           
         }
 
         // POST: Security/Users/Delete/5
         [HttpPost]
         public ActionResult Delete(Guid id, FormCollection collection)
         {
-            try
+            using (var db = new DatabaseContext())
             {
-                // TODO: Add delete logic here
-                var u = users.FirstOrDefault(user => user.Id == id);
-                users.Remove(u);
-                return RedirectToAction("Index");
+                var users = (from user in db.Users
+                             where user.Id == id
+                             select user).FirstOrDefault();
+                db.Users.Remove(users);
+                db.SaveChanges();
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
 
     }
