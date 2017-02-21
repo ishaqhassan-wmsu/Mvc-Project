@@ -66,6 +66,7 @@ namespace jungkookie.Areas.Security.Controllers
         // GET: Security/Users/Details/5
         public ActionResult Details(int id)
         {
+
             return View();
         }
 
