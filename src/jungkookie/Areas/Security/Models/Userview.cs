@@ -12,11 +12,14 @@ namespace jungkookie.Areas.Security.Models
         public Guid Id { get; set; }
 
         [Required]
-        [MinLength(5, ErrorMessage = "Min Of 5 Characters")]
-        [MaxLength(10, ErrorMessage = "Max Of 5 Characters")]
+        [MinLength(3, ErrorMessage = "Min Of 3 Characters")]
+        [MaxLength(25, ErrorMessage = "Max Of 25 Characters")]
         public String FirstName { get; set; }
 
+
         [Required, Display(Name = "Family Name")]
+        [MinLength(3, ErrorMessage = "Min Of 3 Characters")]
+        [MaxLength(25, ErrorMessage = "Max Of 25 Characters")]
         public String LastName { get; set; }
 
 
