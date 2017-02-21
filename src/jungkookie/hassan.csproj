@@ -186,6 +186,7 @@
     <Content Include="Areas\Security\Views\Users\Create.cshtml" />
     <Content Include="Areas\Security\Views\Users\Index.cshtml" />
     <Content Include="Areas\Security\Views\Users\Edit.cshtml" />
+    <Content Include="Areas\Security\Views\Users\Details.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

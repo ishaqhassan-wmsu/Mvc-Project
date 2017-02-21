@@ -64,10 +64,25 @@ namespace jungkookie.Areas.Security.Controllers
             }
         }
         // GET: Security/Users/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid id)
         {
+            using (var db = new DatabaseContext())
+            {
+                var users = db.Users.FirstOrDefault(u => u.Id == id);
+                Userview user = new Userview
+                {
+                    Id = users.Id,
+                    FirstName = users.FirstName,
+                    LastName = users.LastName,
+                    Age = users.Age,
+                    Gender = users.Gender
+               
+                };
+                
+                
+                return View(user);
+            }
 
-            return View();
         }
 
         // GET: Security/Users/Create
