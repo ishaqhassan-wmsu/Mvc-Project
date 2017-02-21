@@ -94,17 +94,21 @@ namespace jungkookie.Areas.Security.Controllers
         {
             try
             {
-                users.Add(new Userview
+                // TODO: Add insert logic here
+                if (ModelState.IsValid == false)
+                    return View();
+                using (var db = new DatabaseContext())
+                {
+                    db.Users.Add(new User
                     {
                         Id = Guid.NewGuid(),
                         FirstName = view.FirstName,
                         LastName = view.LastName,
                         Age = view.Age,
-                        Gender = view.Gender 
-                    }
-                    );
-                // TODO: Add insert logic here
-
+                        Gender = view.Gender
+                    });
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             catch
