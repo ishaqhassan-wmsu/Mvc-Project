@@ -10,11 +10,7 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
+
 header.content-header{
     border-bottom:1px solid #dddddd;
     margin-bottom:16px;
@@ -24,4 +20,44 @@ header.content-header{
 .content-action{
     padding-top:16px;
 
+}
+
+
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.profile a {
+    float: right;
+}
+
+.profile {
+    padding: 32px;
+    box-shadow: 10px 10px 5px #888888;
+    width:50%;
+}
+
+.profile-pic {
+    display: inline-block;
+    width: 20%;
+    vertical-align:top;
+}
+
+.profile-pic img {
+    width: 100px;
+}
+
+.profile-info {
+    display: inline-block;
+    width: 40%;
 }

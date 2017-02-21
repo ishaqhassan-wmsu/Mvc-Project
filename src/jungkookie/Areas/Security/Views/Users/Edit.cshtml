@@ -1,20 +1,34 @@
 ﻿@model jungkookie.Areas.Security.Models.Userview
-
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Userview</h4>
+        <header class="row content.header">
+            <div class="col-md-6">
+                <h2>Edit User</h2>
+            </div>
+
+            <div class="col-md-6 content-action text-right">
+
+                <a href="@Url.Action("Index")" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-remove"></span>Cancel
+                </a>
+                <button type="submit" value="Save" class="btn btn-success">
+                    <span class="glyphicon glyphicon-heart"></span>Update
+
+                </button>
+            </div>
+
+        </header>
         <hr />
+
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
@@ -25,7 +39,6 @@
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -45,21 +58,18 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.RadioButtonFor(model => model.Gender, "Male")Male<br />
-                @Html.RadioButtonFor(model => model.Gender, "Female")Female<br />
-                @Html.RadioButtonFor(model => model.Gender, "Other")Other<br />
-
+                <fieldset>
+                    @Html.RadioButtonFor(model => model.Gender, "Male", false)Male
+                    @Html.RadioButtonFor(model => model.Gender, "Female", false)Female
+                    @Html.RadioButtonFor(model => model.Gender, "Others", false)Others
+                </fieldset>
+                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
     </div>
-}
 
+}
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
