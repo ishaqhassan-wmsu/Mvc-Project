@@ -38,7 +38,7 @@ namespace jungkookie.Areas.Security.Controllers
             }
         }
         // GET: Security/Users/Details/5
-        public ActionResult Details(Guid id)
+        public ActionResult Details(int id)
         {
 
             using (var db = new DatabaseContext())
@@ -81,7 +81,7 @@ namespace jungkookie.Areas.Security.Controllers
                 {
                     db.Users.Add(new User
                     {
-                        Id = Guid.NewGuid(),
+                       
                         FirstName = view.FirstName,
                         LastName = view.LastName,
                         Age = view.Age,
@@ -98,7 +98,7 @@ namespace jungkookie.Areas.Security.Controllers
         }
 
         // GET: Security/Users/Edit/5
-        public ActionResult Edit(Guid id)
+        public ActionResult Edit(int id)
         {
             using (var db = new DatabaseContext())
             {
@@ -121,7 +121,7 @@ namespace jungkookie.Areas.Security.Controllers
 
         // POST: Security/Users/Edit/5
         [HttpPost]
-        public ActionResult Edit(Guid id, Userview view)
+        public ActionResult Edit(int id, Userview view)
         {
             try
             {
@@ -149,7 +149,7 @@ namespace jungkookie.Areas.Security.Controllers
         }
 
         // GET: Security/Users/Delete/5
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(int id)
         {
             using (var db = new DatabaseContext())
             {
@@ -172,7 +172,7 @@ namespace jungkookie.Areas.Security.Controllers
 
         // POST: Security/Users/Delete/5
         [HttpPost]
-        public ActionResult Delete(Guid id, FormCollection collection)
+        public ActionResult Delete(int id, FormCollection collection)
         {
             using (var db = new DatabaseContext())
             {

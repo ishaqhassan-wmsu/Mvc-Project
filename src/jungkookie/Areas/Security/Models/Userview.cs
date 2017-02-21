@@ -9,7 +9,7 @@ namespace jungkookie.Areas.Security.Models
     public class Userview
     {
        
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MinLength(3, ErrorMessage = "Min Of 3 Characters")]
