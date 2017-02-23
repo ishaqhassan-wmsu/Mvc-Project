@@ -2,6 +2,7 @@
 using MyMvc.Dal;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -30,8 +31,8 @@ namespace jungkookie.Areas.Security.Controllers
                                  FirstName = user.FirstName,
                                  LastName = user.LastName,
                                  Age = user.Age,
-                                 Gender = user.Gender
-
+                                 Gender = user.Gender,
+                                 EmploymentDate = user.EmploymentDate
 
                              }).ToList();
                 return View(users);
@@ -52,12 +53,32 @@ namespace jungkookie.Areas.Security.Controllers
                                  FirstName = user.FirstName,
                                  LastName = user.LastName,
                                  Age = user.Age,
-                                 Gender = user.Gender
-
+                                 Gender = user.Gender,
+                                 EmploymentDate = user.EmploymentDate
 
                              }).FirstOrDefault();
                 return View(users);
             }
+
+            //try
+            //{
+            //    using (var db = new DatabaseContext())
+            //    {
+            //        string sql = @"exec GetUserById @id";
+            //        db.Database.SqlQuery(sql,
+            //            new SqlParameter[] {
+            //            new SqlParameter("@id",id)
+            //        });
+
+            //        return View(users);
+            //    }
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
+
+            
 
         }
 
@@ -72,29 +93,46 @@ namespace jungkookie.Areas.Security.Controllers
         [HttpPost]
         public ActionResult Create(Userview view)
         {
-            try
-            {
-                // TODO: Add insert logic here
+                 //using (var db = new DatabaseContext())
+                //{
+                //    string sql = @"exec uspCreateUser @fname, @lname, @age, @gender, @empDate, @school, @yrAttended";
+                //    db.Database.ExecuteSqlCommand(sql,
+                //        new SqlParameter[] {
+                //        new SqlParameter("@fname",view.FirstName),
+                //        new SqlParameter("@lname",view.LastName),
+                //        new SqlParameter("@age",view.Age),
+                //        new SqlParameter("@gender",view.Gender),
+                //        new SqlParameter("@empDate",DateTime.UtcNow),
+                //        new SqlParameter("@school","WMSU"),
+                //        new SqlParameter("@yrAttended","2002")
+                //    });
+                //    return RedirectToAction("Index");
+                //}
+
                 if (ModelState.IsValid == false)
                     return View();
                 using (var db = new DatabaseContext())
                 {
-                    db.Users.Add(new User
+                    var newUser = new User
                     {
-                       
                         FirstName = view.FirstName,
                         LastName = view.LastName,
                         Age = view.Age,
-                        Gender = view.Gender
+                        Gender = view.Gender,
+                        EmploymentDate = view.EmploymentDate
+                      
+                    };
+                    newUser.Educations.Add(new Education
+                    {
+                        School = "Static School",
+                        YearAttended = "2010"
                     });
+                    db.Users.Add(newUser);
                     db.SaveChanges();
                 }
                 return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            
+            
         }
 
         // GET: Security/Users/Edit/5
@@ -111,7 +149,8 @@ namespace jungkookie.Areas.Security.Controllers
                                  FirstName = user.FirstName,
                                  LastName = user.LastName,
                                  Age = user.Age,
-                                 Gender = user.Gender
+                                 Gender = user.Gender,
+                                 EmploymentDate = user.EmploymentDate
 
 
                              }).FirstOrDefault();
@@ -137,7 +176,8 @@ namespace jungkookie.Areas.Security.Controllers
                     users.FirstName = view.FirstName;
                     users.LastName = view.LastName;
                     users.Age = view.Age;
-                    users.Gender = view.Gender; 
+                    users.Gender = view.Gender;
+                    users.EmploymentDate = view.EmploymentDate;
                     db.SaveChanges();
                 }
                 return RedirectToAction("Index");
@@ -161,7 +201,8 @@ namespace jungkookie.Areas.Security.Controllers
                                  FirstName = user.FirstName,
                                  LastName = user.LastName,
                                  Age = user.Age,
-                                 Gender = user.Gender
+                                 Gender = user.Gender,
+                                 EmploymentDate = user.EmploymentDate
 
 
                              }).FirstOrDefault();
